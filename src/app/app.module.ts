@@ -1,16 +1,30 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, Injector } from '@angular/core';
+import { createCustomElement } from '@angular/elements';
+import { MatTooltipModule } from '@angular/material';
 
-import { AppComponent } from './app.component';
+import { SuperTooltipComponent } from './super-tooltip.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
-    AppComponent
+    SuperTooltipComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    BrowserAnimationsModule,
+    MatTooltipModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  entryComponents: [
+    SuperTooltipComponent
+  ],
+  providers: []
 })
-export class AppModule { }
+export class AppModule {
+  constructor(private injector: Injector) {
+    const customElement = createCustomElement(SuperTooltipComponent, { injector });
+    customElements.define('super-tooltip', customElement);
+  }
+
+  ngDoBootstrap() { }
+}
